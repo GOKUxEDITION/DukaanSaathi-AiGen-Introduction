@@ -1,0 +1,6 @@
+{
+  "appId": "com.dukaansaathi.aigen.introduction",
+  "appName": "DukaanSaathi AiGen",
+  "webDir": "dist",
+  "bundledWebRuntime": false
+}
