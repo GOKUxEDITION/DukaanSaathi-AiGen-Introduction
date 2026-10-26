@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 const sections = [
   { id: 'home', label: 'Home', icon: '⌂' },
+  { id: 'overview', label: 'Overview', icon: '◈' },
   { id: 'features', label: 'Features', icon: '▦' },
   { id: 'product', label: 'Product', icon: '◉' },
   { id: 'roadmap', label: 'Roadmap', icon: '◷' },
@@ -29,6 +30,7 @@ function DynamicIsland({active,onNavigate}){const [open,setOpen]=useState(false)
 export default function App(){
  const [active,setActive]=useState('home'); const [dark,setDark]=useState(false); const [unlocked,setUnlocked]=useState(false); const [selected,setSelected]=useState(null); const [menu,setMenu]=useState(false);
  useEffect(()=>{const onScroll=()=>{let current='home';for(const s of sections){const el=document.getElementById(s.id);if(el&&el.getBoundingClientRect().top<window.innerHeight*.45)current=s.id;}setActive(current)};window.addEventListener('scroll',onScroll,{passive:true});return()=>window.removeEventListener('scroll',onScroll)},[]);
+ useEffect(()=>{let startX=0,startY=0,lastSwipe=0;const ordered=['home','overview','features','product','roadmap','connect'];const onStart=e=>{if(e.touches.length!==1)return;startX=e.touches[0].clientX;startY=e.touches[0].clientY};const onEnd=e=>{if(!startY||!e.changedTouches.length)return;const dx=e.changedTouches[0].clientX-startX;const dy=e.changedTouches[0].clientY-startY;startY=0;if(Math.abs(dy)<65||Math.abs(dy)<Math.abs(dx)*1.15)return;const now=Date.now();if(now-lastSwipe<650)return;lastSwipe=now;const y=window.scrollY+window.innerHeight*.35;let index=0;ordered.forEach((id,i)=>{const el=document.getElementById(id);if(el&&el.offsetTop<=y)index=i});const next=dy<0?Math.min(index+1,ordered.length-1):Math.max(index-1,0);if(next!==index){document.getElementById(ordered[next])?.scrollIntoView({behavior:'smooth',block:'start'});}};window.addEventListener('touchstart',onStart,{passive:true});window.addEventListener('touchend',onEnd,{passive:true});return()=>{window.removeEventListener('touchstart',onStart);window.removeEventListener('touchend',onEnd)}},[]);
  useEffect(()=>{document.documentElement.dataset.theme=dark?'dark':'light'},[dark]);
  const go=(id)=>{scrollTo(id);setActive(id);setMenu(false)};
  return <div className="portfolio-shell">
@@ -44,7 +46,7 @@ export default function App(){
     </div>
     <div className="hero-caption"><span className="caption-line"/> A PRODUCT VISION FOR INDIAN RETAIL <span className="caption-line"/></div>
    </section>
-   <section className="home-screen section-shell" aria-label="Product overview">
+   <section id="overview" className="home-screen section-shell" aria-label="Product overview">
     <div className="section-topline"><span className="eyebrow">THE PRODUCT AT A GLANCE</span><span className="live-indicator"><i/> LOCAL-FIRST VISION</span></div>
     <div className="home-heading"><div><h1>Your shop.<br/><span>Your digital saathi.</span></h1><p>DukaanSaathi AiGen is being shaped as an offline-first Android business companion for India's everyday retailers. A calmer way to organise the essentials, built around real shop workflows.</p></div><div className="hero-app-icon"><span>DS</span><i>✦</i></div></div>
     <div className="widget-grid"><article className="glass-widget profile-widget"><span className="widget-label">BUILT FOR BHARAT</span><div className="profile-illustration"><div className="store-roof"/><div className="store-awning"><i/><i/><i/><i/><i/></div><div className="store-front"><span>DS</span><div/><div/></div></div><h3>Everyday retail, understood.</h3><p>Kirana stores · General stores · Independent retailers</p></article>
