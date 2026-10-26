@@ -5,37 +5,40 @@
 # DukaanSaathi AiGen
 ### Har Dukaan Ka Digital Saathi
 
-**Introduction & Product Portfolio · Offline-first Android retail platform**
+**Introduction & Product Portfolio · An interactive Liquid Glass experience**
 
 **Developed & Maintained by Dipak Choudhary · Powered by KAIxGenShopLabs**
 
-![React](https://img.shields.io/badge/Portfolio-React%20%2B%20Vite-0B7A4B?style=for-the-badge)
-![Product](https://img.shields.io/badge/Product-Android%20Retail-075C39?style=for-the-badge)
-![Status](https://img.shields.io/badge/Scope-Phase%2002%20MVP-E8F5EE?style=for-the-badge)
+![React](https://img.shields.io/badge/React-18-149B63?style=for-the-badge&logo=react&logoColor=white)
+![Vite](https://img.shields.io/badge/Vite-6-646CFF?style=for-the-badge&logo=vite&logoColor=white)
+![Design](https://img.shields.io/badge/Design-Liquid%20Glass-77BCE0?style=for-the-badge)
+![Scope](https://img.shields.io/badge/Scope-Phase%2002%20MVP-0B7A4B?style=for-the-badge)
 
 </div>
 
 ## About
 
-This repository contains the **DukaanSaathi AiGen Introduction & Product Portfolio website**. It presents the product vision, Phase 02 MVP scope, engineering baseline, roadmap principles and project governance in a responsive, animated, green-first interface.
+The **DukaanSaathi AiGen Introduction & Product Portfolio** presents the product through an interactive, iPhone-inspired interface: a live lock-screen clock, Dynamic Island-style navigation, translucent glass surfaces, animated ambient colour, app-icon feature navigation, a phone UI concept, roadmap and a message-style project identity section.
 
-**Important:** This is a React/Vite web portfolio, not the native Android app source repository.
+The design takes inspiration from the general interaction language of mobile operating systems and Liquid Glass materials. It is an original DukaanSaathi AiGen presentation, not a copy of another creator's personal information, assets or portfolio content.
 
-## Product identity
+> This repository contains the web introduction/portfolio. It is not the native Android app source repository.
+
+## Official product identity
 
 - **Application:** DukaanSaathi AiGen
 - **Tagline:** Har Dukaan Ka Digital Saathi
 - **Developer / Maintainer:** Dipak Choudhary
 - **Powered by:** KAIxGenShopLabs
 - **Android application ID / namespace:** `com.dukaansaathi.aigen`
-- **Audience:** Indian kirana, general stores and small retailers
-- **Product direction:** Offline-first, selection-first UX, careful data integrity
+- **Audience:** Indian kirana, general stores and independent retailers
+- **Product direction:** Offline-first workflows, selection-first UX and reliable local data
 - **Brand palette:** `#0B7A4B`, `#075C39`, `#E8F5EE`, `#F7FAF8`
 
-## Phase 02 MVP scope
+## Phase 02 MVP
 
 | Requirement | Feature |
-|---|---|
+| --- | --- |
 | REQ-MVP-01 | Merchant Shop Profile & Onboarding |
 | REQ-MVP-02 | Kirana Product Catalog Management |
 | REQ-MVP-03 | Immutable Stock Movement Ledger |
@@ -45,13 +48,13 @@ This repository contains the **DukaanSaathi AiGen Introduction & Product Portfol
 
 ## Engineering baseline
 
-The Android product baseline is Kotlin, Jetpack Compose, Material 3, MVVM, Clean Architecture, Repository Pattern, Room/SQLite, DataStore, Kotlin Coroutines and Flow. Use manual dependency injection unless the governing roadmap authorizes a change. Money must use `Long` paise or an approved Money abstraction, not `Float` or `Double`.
+The Android product baseline is Kotlin, Jetpack Compose, Material 3, MVVM, Clean Architecture, Repository Pattern, Room/SQLite, DataStore, Coroutines and Flow. Use manual dependency injection unless the governing roadmap authorizes a change. Money values must use Long paise or an approved Money abstraction, not Float or Double.
 
-This portfolio does not claim that every planned Android capability is implemented or production-ready. The Master Index, Phase 00–23 roadmap and verified source/build evidence remain authoritative.
+The website describes the approved product direction; it does not claim every planned Android capability is already implemented or production-ready. The Master Index, Phase 00–23 roadmap and verified build/test evidence remain authoritative.
 
-## Out of scope for Phase 02
+## Phase 02 exclusions
 
-Barcode/ML Kit/CameraX, full POS checkout/invoice, online payments/UPI, SMS/WhatsApp APIs, Firebase/cloud sync/multi-device, Bluetooth thermal printing, subscriptions, AI Copilot, backend API/PostgreSQL, iOS and Play Store release work remain excluded unless formally authorized by the roadmap.
+Barcode / ML Kit / CameraX, full POS checkout and invoice, online payments / UPI, SMS / WhatsApp APIs, Firebase cloud sync / multi-device, Bluetooth thermal printing, subscriptions, AI Copilot, backend API / PostgreSQL, iOS and Play Store release work remain excluded unless the governing roadmap explicitly authorizes them.
 
 ## Run locally
 
@@ -62,26 +65,26 @@ npm install
 npm run dev
 ```
 
-Production build and preview:
+Build and preview:
 
 ```bash
 npm run build
 npm run preview
 ```
 
-## Project governance
+## Project principles
 
 - Atomic execution: one task at a time.
 - Strict scope lock: no unapproved scope creep.
-- No invented backend endpoints or fake sync status.
-- Keep secrets and local environment files out of Git.
+- No invented backend endpoints or fake sync states.
+- Never commit API keys, tokens, passwords or local environment secrets.
 - Verify builds and tests before claiming completion.
+- Respect reduced-motion preferences and responsive layouts.
 
 ## Copyright and permissions
 
-Copyright © 2026 Dipak Choudhary. All rights reserved, subject to applicable third-party licenses. No license is granted for reuse of original project code, design assets, branding or documentation without prior written permission. See [COPYRIGHT_AND_PERMISSION.txt](COPYRIGHT_AND_PERMISSION.txt). Public availability does not itself grant a general reuse license; third-party dependencies and assets remain governed by their own licenses.
+Copyright © 2026 Dipak Choudhary. All rights reserved, subject to applicable third-party licenses. No license is granted for reuse of original project code, original design assets, branding or documentation without prior written permission from the applicable rights holder. Read [COPYRIGHT_AND_PERMISSION.txt](COPYRIGHT_AND_PERMISSION.txt). Public visibility does not itself grant a general reuse license; dependencies and third-party materials remain subject to their own licenses.
 
-## Links
+## Repository
 
-- Introduction portfolio repository: https://github.com/GOKUxEDITION/DukaanSaathi-AiGen-Introduction
-- Android product repository: https://github.com/GOKUxEDITION/DukaanSaathiAiGen
+https://github.com/GOKUxEDITION/DukaanSaathi-AiGen-Introduction
