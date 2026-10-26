@@ -1,0 +1,15 @@
+# COPYRIGHT AND PERMISSION NOTICE
+
+Project: DukaanSaathi AiGen — Introduction & Product Portfolio
+Developer / Maintainer: Dipak Choudhary
+Powered By: KAIxGenShopLabs
+
+Copyright © 2026 Dipak Choudhary. All rights reserved, except where applicable law or separate third-party licenses provide otherwise.
+
+No license or permission is granted to copy, reproduce, modify, redistribute, republish, sublicense, or commercially exploit original project source code, original design assets, branding, or documentation without prior written permission from the applicable rights holder.
+
+Any authorized use must be expressly approved in writing and comply with the conditions of that approval. Public visibility of this repository does not by itself grant a general license to reuse its contents.
+
+This notice does not claim ownership of third-party dependencies, libraries, icons, fonts, or other materials that are subject to separate licenses. Those materials remain governed by their own applicable terms. Review dependency and asset licenses before any use.
+
+Permission requests should be directed to the project maintainer through the official repository or profile contact details.
