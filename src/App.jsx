@@ -196,7 +196,7 @@ export default function App() {
         </FadeIn>
         <div className="hero-heading-wrap"><FadeIn delay={0.15} y={40}><h1 className="hero-heading">Hi, I'm Goku<br className="hero-break"/> Choudhary<span className="hero-period">.</span></h1></FadeIn></div>
         <div className="hero-portrait-glow" />
-        <FadeIn className="hero-portrait" delay={0.6} y={30}><Magnet><img src="/goku-choudhary.webp" alt="Portrait of Goku Choudhary" fetchPriority="high"/><span className="portrait-caption">DIPAK CHOUDHARY · DEVELOPER</span></Magnet></FadeIn>
+        <FadeIn className="hero-portrait" delay={0.6} y={30}><Magnet><img src="./goku-choudhary.webp" alt="Portrait of Goku Choudhary" fetchPriority="high"/><span className="portrait-caption">DIPAK CHOUDHARY · DEVELOPER</span></Magnet></FadeIn>
         <div className="hero-bottom">
           <FadeIn delay={0.35} y={20} className="hero-intro"><span className="eyebrow">ANDROID · WEB · AI</span><p>Building Android apps & AI-powered digital experiences.</p><span className="hero-location">INDEPENDENT DEVELOPER · INDIA</span></FadeIn>
           <FadeIn delay={0.5} y={20}><ContactButton /></FadeIn>
