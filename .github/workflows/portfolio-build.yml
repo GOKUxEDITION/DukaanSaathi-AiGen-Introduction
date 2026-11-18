@@ -1,8 +1,8 @@
-name: Website and Android APK Build
+name: Goku Portfolio Build and Deploy
 
 on:
   push:
-    branches: [main]
+    branches: [main, personal-3d-portfolio]
   pull_request:
     branches: [main]
   workflow_dispatch:
@@ -10,49 +10,42 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: github-pages
+  cancel-in-progress: false
+
 jobs:
-  build-website-and-apk:
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
-
-      - name: Set up Java
-        uses: actions/setup-java@v4
-        with:
-          distribution: temurin
-          java-version: '17'
-
-      - name: Set up Android SDK
-        uses: android-actions/setup-android@v3
-
-      - name: Install Node dependencies
-        run: npm install
-
-      - name: Build website assets
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+      - name: Build portfolio website
         run: npm run build
-
-      - name: Generate Android project
-        run: npx cap add android
-
-      - name: Sync bundled website into Android project
-        run: npx cap sync android
-
-      - name: Build debug APK
-        run: |
-          chmod +x android/gradlew
-          cd android
-          ./gradlew assembleDebug
-
-      - name: Upload APK artifact
-        uses: actions/upload-artifact@v4
+      - name: Upload GitHub Pages artifact
+        uses: actions/upload-pages-artifact@v4
         with:
-          name: DukaanSaathi-AiGen-Introduction-debug-apk
-          path: android/app/build/outputs/apk/debug/app-debug.apk
-          if-no-files-found: error
-          retention-days: 14
+          path: dist/
+
+  deploy:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+      - name: Deploy portfolio
+        id: deployment
+        uses: actions/deploy-pages@v4
