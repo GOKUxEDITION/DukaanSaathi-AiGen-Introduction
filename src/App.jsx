@@ -1,70 +1,248 @@
-import React, { useEffect, useState } from 'react';
+import React, { useRef, useState } from 'react';
+import {
+  motion,
+  useScroll,
+  useTransform,
+} from 'framer-motion';
+import {
+  ArrowDownRight, ArrowUpRight, ArrowRight, Github, Instagram,
+  Mail, MessageCircle, Send, Code2, Smartphone, BrainCircuit,
+  Layers3, Database, Cpu, Menu, X, Sparkles, ExternalLink,
+} from 'lucide-react';
 
-const sections = [
-  { id: 'home', label: 'Home', icon: '⌂' },
-  { id: 'overview', label: 'Overview', icon: '◈' },
-  { id: 'features', label: 'Features', icon: '▦' },
-  { id: 'product', label: 'Product', icon: '◉' },
-  { id: 'roadmap', label: 'Roadmap', icon: '◷' },
-  { id: 'connect', label: 'Connect', icon: '✉' },
+const marqueeImages = [
+  'https://motionsites.ai/assets/hero-space-voyage-preview-eECLH3Yc.gif',
+  'https://motionsites.ai/assets/hero-codenest-preview-Cgppc2qV.gif',
+  'https://motionsites.ai/assets/hero-vex-ventures-preview-BczMFIiw.gif',
+  'https://motionsites.ai/assets/hero-stellar-ai-v2-preview-DjvxjG3C.gif',
+  'https://motionsites.ai/assets/hero-asme-preview-B_nGDnTP.gif',
+  'https://motionsites.ai/assets/hero-transform-data-preview-Cx5OU29N.gif',
+  'https://motionsites.ai/assets/hero-vitara-preview-Cjz2QYyU.gif',
+  'https://motionsites.ai/assets/hero-terra-preview-BFjrCr7T.gif',
+  'https://motionsites.ai/assets/hero-skyelite-preview-DHaZIgUv.gif',
+  'https://motionsites.ai/assets/hero-aethera-preview-DknSlcTa.gif',
+  'https://motionsites.ai/assets/hero-designpro-preview-D8c5_een.gif',
+  'https://motionsites.ai/assets/hero-stellar-ai-preview-D3HL6bw1.gif',
+  'https://motionsites.ai/assets/hero-xportfolio-preview-D4A8maiC.gif',
+  'https://motionsites.ai/assets/hero-orbit-web3-preview-BXt4OttD.gif',
+  'https://motionsites.ai/assets/hero-nexora-preview-cx5HmUgo.gif',
+  'https://motionsites.ai/assets/hero-evr-ventures-preview-DZxeVFEX.gif',
+  'https://motionsites.ai/assets/hero-planet-orbit-preview-DWAP8Z1P.gif',
+  'https://motionsites.ai/assets/hero-new-era-preview-CocuDUm9.gif',
+  'https://motionsites.ai/assets/hero-wealth-preview-B70idl_u.gif',
+  'https://motionsites.ai/assets/hero-luminex-preview-CxOP7ce6.gif',
+  'https://motionsites.ai/assets/hero-celestia-preview-0yO3jXO8.gif',
 ];
-const features = [
-  { n:'01', icon:'⌂', name:'Shop Profile', code:'REQ-MVP-01', desc:'Merchant onboarding and a clear digital home for each shop.' },
-  { n:'02', icon:'▦', name:'Product Catalog', code:'REQ-MVP-02', desc:'Keep kirana products and their essential details organised locally.' },
-  { n:'03', icon:'⇄', name:'Stock Movement Ledger', code:'REQ-MVP-03', desc:'Trace stock changes through a history-first, immutable ledger approach.' },
-  { n:'04', icon:'⌁', name:'Low-Stock Alerts', code:'REQ-MVP-04', desc:'Spot items that need replenishment before they become a headache.' },
-  { n:'05', icon:'₹', name:'Customer Khata', code:'REQ-MVP-05', desc:'A dependable local ledger for customer credit and udhar balances.' },
-  { n:'06', icon:'▥', name:'Daily Dashboard', code:'REQ-MVP-06', desc:'Understand important shop metrics without digging through screens.' },
+
+const decor = {
+  moon: 'https://shrug-person-78902957.figma.site/_components/v2/ebb2b8f25d8e24d5f0a5ca8af4c950de81aa2fd7/moon_icon.11395d36.png',
+  object: 'https://shrug-person-78902957.figma.site/_components/v2/ebb2b8f25d8e24d5f0a5ca8af4c950de81aa2fd7/p59_1.4659672e.png',
+  lego: 'https://shrug-person-78902957.figma.site/_components/v2/ebb2b8f25d8e24d5f0a5ca8af4c950de81aa2fd7/lego_icon-1.703bb594.png',
+  group: 'https://shrug-person-78902957.figma.site/_components/v2/ebb2b8f25d8e24d5f0a5ca8af4c950de81aa2fd7/Group_134-1.2e04f3ce.png',
+};
+
+const services = [
+  { number: '01', title: 'Android app development', description: 'Building Android application experiences with Kotlin, native Android foundations and modern UI patterns.' },
+  { number: '02', title: 'Web development', description: 'Creating responsive web interfaces and product experiences with modern frontend tools.' },
+  { number: '03', title: 'AI app integration', description: 'Exploring practical AI features, LLM-powered workflows, chat interfaces and automation integrations.' },
+  { number: '04', title: 'UI / UX implementation', description: 'Turning product ideas and visual references into clear, usable screens with thoughtful interaction details.' },
+  { number: '05', title: 'App architecture & debugging', description: 'Working through app structure, local data design, integration issues, testing and release-readiness improvements.' },
 ];
-const phases = [
-  { n:'00', title:'Foundation & governance', desc:'Project identity, master index, scope rules and delivery standards.', state:'FOUNDATION' },
-  { n:'01', title:'Product definition & UX', desc:'Requirements, navigation, design system and interaction principles.', state:'FOUNDATION' },
-  { n:'02', title:'Retail MVP core', desc:'Shop profile, catalog, stock ledger, alerts, Khata and dashboard.', state:'MVP SCOPE' },
-  { n:'03–23', title:'Future roadmap', desc:'Further capabilities only when the governing roadmap authorizes them.', state:'CONTROLLED' },
+
+const skillGroups = [
+  { title: 'Android development', icon: Smartphone, tags: ['Kotlin', 'Java', 'Android SDK', 'Jetpack Compose', 'XML', 'Material 3', 'MVVM', 'Room / SQLite', 'Coroutines & Flow', 'Gradle'] },
+  { title: 'Web & backend', icon: Code2, tags: ['HTML5', 'CSS3', 'JavaScript', 'TypeScript', 'React', 'Next.js', 'Tailwind CSS', 'Node.js', 'REST APIs', 'Git & GitHub'] },
+  { title: 'AI & data tools', icon: BrainCircuit, tags: ['AI / LLM integration', 'Gemini API', 'OpenAI API', 'Chatbots', 'Speech workflows', 'Supabase', 'Firebase', 'PostgreSQL'] },
 ];
-const tech = [['K','Kotlin','Native Android language'],['◈','Jetpack Compose','Declarative UI'],['▧','Material 3','Consistent design system'],['⌘','MVVM + Clean Architecture','Maintainable boundaries'],['▤','Room / SQLite','Local persistence'],['↯','Coroutines + Flow','Async data streams']];
-function IconTile({children,color='green'}) { return <span className={'app-tile '+color}>{children}</span>; }
-function scrollTo(id){document.getElementById(id)?.scrollIntoView({behavior:'smooth',block:'start'});}
-function Clock(){const [now,setNow]=useState(new Date());useEffect(()=>{const id=setInterval(()=>setNow(new Date()),1000);return()=>clearInterval(id)},[]);return <><div className="lock-date">{now.toLocaleDateString('en-IN',{weekday:'long',day:'numeric',month:'long'})}</div><div className="lock-time">{now.toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit',hour12:false})}</div></>}
-function DynamicIsland({active,onNavigate}){const [open,setOpen]=useState(false);return <div className="island-wrap"><div className={'dynamic-island '+(open?'expanded':'')}><button className="island-trigger" onClick={()=>setOpen(!open)} aria-expanded={open}><span className="island-dot"/><span>{open?'DUKAANSAATHI NAVIGATION':active.toUpperCase()}</span><span className="island-wave"><i/><i/><i/></span></button>{open&&<div className="island-menu">{sections.map(s=><button key={s.id} onClick={()=>{onNavigate(s.id);setOpen(false)}}><span>{s.icon}</span>{s.label}<b>↗</b></button>)}<p>Har Dukaan Ka Digital Saathi</p></div>}</div></div>}
-export default function App(){
- const [active,setActive]=useState('home'); const [dark,setDark]=useState(false); const [unlocked,setUnlocked]=useState(false); const [selected,setSelected]=useState(null); const [menu,setMenu]=useState(false);
- useEffect(()=>{const onScroll=()=>{let current='home';for(const s of sections){const el=document.getElementById(s.id);if(el&&el.getBoundingClientRect().top<window.innerHeight*.45)current=s.id;}setActive(current)};window.addEventListener('scroll',onScroll,{passive:true});return()=>window.removeEventListener('scroll',onScroll)},[]);
- useEffect(()=>{let startX=0,startY=0,lastSwipe=0;const ordered=['home','overview','features','product','roadmap','connect'];const onStart=e=>{if(e.touches.length!==1)return;startX=e.touches[0].clientX;startY=e.touches[0].clientY};const onEnd=e=>{if(!startY||!e.changedTouches.length)return;const dx=e.changedTouches[0].clientX-startX;const dy=e.changedTouches[0].clientY-startY;startY=0;if(Math.abs(dy)<65||Math.abs(dy)<Math.abs(dx)*1.15)return;const now=Date.now();if(now-lastSwipe<650)return;lastSwipe=now;const y=window.scrollY+window.innerHeight*.35;let index=0;ordered.forEach((id,i)=>{const el=document.getElementById(id);if(el&&el.offsetTop<=y)index=i});const next=dy<0?Math.min(index+1,ordered.length-1):Math.max(index-1,0);if(next!==index){document.getElementById(ordered[next])?.scrollIntoView({behavior:'smooth',block:'start'});}};window.addEventListener('touchstart',onStart,{passive:true});window.addEventListener('touchend',onEnd,{passive:true});return()=>{window.removeEventListener('touchstart',onStart);window.removeEventListener('touchend',onEnd)}},[]);
- useEffect(()=>{document.documentElement.dataset.theme=dark?'dark':'light'},[dark]);
- const go=(id)=>{scrollTo(id);setActive(id);setMenu(false)};
- return <div className="portfolio-shell">
-  <div className="sky-field sky-one"/><div className="sky-field sky-two"/><div className="sky-field sky-three"/>
-  <DynamicIsland active={active} onNavigate={go}/>
-  <header className="glass-nav"><a className="brand-lockup" href="#home" onClick={e=>{e.preventDefault();go('home')}}><span className="brand-icon">DS</span><span><b>DukaanSaathi <i>AiGen</i></b><small>PRODUCT INTRODUCTION</small></span></a><button className="mobile-menu" onClick={()=>setMenu(!menu)}>{menu?'×':'☰'}</button><nav className={menu?'nav-items show':'nav-items'}>{sections.map(s=><button key={s.id} className={active===s.id?'selected':''} onClick={()=>go(s.id)}>{s.label}</button>)}</nav><button className="theme-switch" onClick={()=>setDark(!dark)} aria-label="Toggle appearance">{dark?'☼':'☾'}</button></header>
-  <main>
-   <section id="home" className="lock-hero">
-    <div className="lock-content"><div className="lock-brand"><span className="brand-icon big">DS</span><span>DUKAANSAATHI AIGEN</span></div><Clock/>
-     <div className="lock-notification"><IconTile>✳</IconTile><div><div className="notif-meta"><b>DUKAANSAATHI AIGEN</b><span>PRODUCT INTRODUCTION</span></div><strong>Namaste, dukandaar! 👋</strong><p>Your shop deserves a smarter digital saathi.</p></div><span className="notif-arrow">↗</span></div>
-     <div className="lock-widgets"><div className="round-widget"><span className="widget-ring">₹</span><b>Khata</b><small>Customer ledger</small></div><div className="round-widget"><span className="widget-ring stock">▦</span><b>Stock</b><small>Inventory clarity</small></div><div className="round-widget"><span className="widget-ring leaf">⌁</span><b>Offline-first</b><small>Local data focus</small></div></div>
-     <button className="unlock-button" onClick={()=>{setUnlocked(!unlocked);go('features')}}><span>{unlocked?'Explore the MVP':'Swipe up to explore'}</span><b>↑</b></button>
+
+const projects = [
+  {
+    number: '01', category: 'ANDROID · RETAIL TECH', name: 'DukaanSaathi AiGen',
+    summary: 'An offline-first digital business companion concept for kirana and independent retailers. Focused on shop workflows, catalog, stock and customer Khata foundations.',
+    status: 'IN DEVELOPMENT',
+    link: 'https://github.com/GOKUxEDITION/DukaanSaathiAiGen', linkLabel: 'GitHub Repository',
+    images: [
+      'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_2026087a5-41ce-b64f-eb08da8f33db.png&w=1280&q=85',
+      'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_202608b41-46a5-82e4-b04f2407a7d8.png&w=1280&q=85',
+      'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_2026028d4-48cc-86b0-6f72f25b6327.png&w=1280&q=85',
+    ],
+  },
+  {
+    number: '02', category: 'ANDROID · AI ASSISTANT', name: 'AI Phone Assistant',
+    summary: 'An Android assistant project exploring phone-focused helper workflows, app interactions and practical AI-powered experiences.',
+    status: 'PROTOTYPE / DEVELOPMENT',
+    link: 'https://github.com/GOKUxEDITION/AI-Phone-Assistant-', linkLabel: 'GitHub Repository',
+    images: [
+      'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_2026036d9-4bc6-bac7-331adfce159f.png&w=1280&q=85',
+      'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260d9c2-4665-b2e3-83ba19ba76d1.png&w=1280&q=85',
+      'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260a8e6-49c0-b43a-9b030d835cea.png&w=1280&q=85',
+    ],
+  },
+  {
+    number: '03', category: 'SECURITY · RESEARCH', name: 'Laptop & Android Phone Security',
+    summary: 'A personal learning track around device safety, system configuration, privacy awareness and practical security checks.',
+    status: 'CONCEPT / LEARNING TRACK',
+    link: null, linkLabel: null,
+    images: [
+      'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_202604bd1-4b0f-9d0a-09bd6cf95b2f.png&w=1280&q=85',
+      'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_202609846-4dcc-89ab-c4e6cb830f5b.png&w=1280&q=85',
+      'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260ad7e-46b9-999a-1a6a692ef1ee.png&w=1280&q=85',
+    ],
+  },
+];
+
+function FadeIn({ children, delay = 0, y = 30, className = '', ...props }) {
+  return (
+    <motion.div
+      className={className}
+      initial={{ opacity: 0, y }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '50px', amount: 0 }}
+      transition={{ duration: 0.7, delay, ease: [0.25, 0.1, 0.25, 1] }}
+      {...props}
+    >{children}</motion.div>
+  );
+}
+
+function ContactButton({ children = 'Contact Me', href = '#contact' }) {
+  return <a className="contact-button" href={href}>{children}<ArrowUpRight size={18} strokeWidth={1.8} /></a>;
+}
+
+function Magnet({ children }) {
+  const ref = useRef(null);
+  const [offset, setOffset] = useState({ x: 0, y: 0 });
+  const handleMove = (event) => {
+    if (!ref.current) return;
+    const rect = ref.current.getBoundingClientRect();
+    const dx = event.clientX - (rect.left + rect.width / 2);
+    const dy = event.clientY - (rect.top + rect.height / 2);
+    const near = Math.abs(dx) < rect.width / 2 + 150 && Math.abs(dy) < rect.height / 2 + 150;
+    setOffset(near ? { x: (dx / 3) * 0.18, y: (dy / 3) * 0.18 } : { x: 0, y: 0 });
+  };
+  return (
+    <div ref={ref} className="magnet-wrap" onMouseMove={handleMove} onMouseLeave={() => setOffset({ x: 0, y: 0 })}>
+      <div className="magnet-inner" style={{ transform: `translate3d(${offset.x}px, ${offset.y}px, 0)`, transition: offset.x || offset.y ? 'transform .3s ease-out' : 'transform .6s ease-in-out' }}>{children}</div>
     </div>
-    <div className="hero-caption"><span className="caption-line"/> A PRODUCT VISION FOR INDIAN RETAIL <span className="caption-line"/></div>
-   </section>
-   <section id="overview" className="home-screen section-shell" aria-label="Product overview">
-    <div className="section-topline"><span className="eyebrow">THE PRODUCT AT A GLANCE</span><span className="live-indicator"><i/> LOCAL-FIRST VISION</span></div>
-    <div className="home-heading"><div><h1>Your shop.<br/><span>Your digital saathi.</span></h1><p>DukaanSaathi AiGen is being shaped as an offline-first Android business companion for India's everyday retailers. A calmer way to organise the essentials, built around real shop workflows.</p></div><div className="hero-app-icon"><span>DS</span><i>✦</i></div></div>
-    <div className="widget-grid"><article className="glass-widget profile-widget"><span className="widget-label">BUILT FOR BHARAT</span><div className="profile-illustration"><div className="store-roof"/><div className="store-awning"><i/><i/><i/><i/><i/></div><div className="store-front"><span>DS</span><div/><div/></div></div><h3>Everyday retail, understood.</h3><p>Kirana stores · General stores · Independent retailers</p></article>
-    <article className="glass-widget stats-widget"><span className="widget-label">PHASE 02 MVP</span><div className="stat-big">06<span> core requirements</span></div><div className="mini-bars"><i/><i/><i/><i/><i/><i/></div><div className="stat-foot"><span>Scope-led delivery</span><b>REQ-MVP-01 → 06</b></div></article>
-    <article className="glass-widget principle-widget"><span className="widget-label">DESIGN PRINCIPLE</span><div className="principle-orb">⌁</div><h3>Offline-first.<br/>No pretend sync.</h3><p>Local persistence is the baseline. Remote sync is never claimed unless implemented and verified.</p><span className="principle-tag">LOCAL DATA PHILOSOPHY</span></article></div>
-    <div className="scroll-hint" onClick={()=>go('features')}><span/> EXPLORE THE PRODUCT <b>↓</b></div>
-   </section>
-   <section id="features" className="section-shell section-block"><div className="section-heading"><span className="eyebrow">APP LIBRARY · PHASE 02</span><h2>Six essential tools.<br/><span>One simpler shop day.</span></h2><p>Each feature card is one part of the initial product scope. Tap a card to see its purpose and requirement ID.</p></div><div className="app-grid">{features.map((f,i)=><button className={'feature-app app-card app-color-'+i} key={f.n} onClick={()=>setSelected(f)}><span className="app-icon-large">{f.icon}</span><span className="app-name">{f.name}</span><span className="app-code">{f.code}</span></button>)}</div>
-    <div className="feature-detail-grid">{features.slice(0,3).map((f,i)=><article className="glass-widget detail-card" key={f.n}><div className="detail-top"><IconTile color={['green','blue','orange'][i]}>{f.icon}</IconTile><span>{f.n} / 06</span></div><small>{f.code}</small><h3>{f.name}</h3><p>{f.desc}</p></article>)}</div>
-   </section>
-   <section id="product" className="product-section"><div className="section-shell product-layout"><div className="section-heading"><span className="eyebrow">ENGINEERING · THE FOUNDATION</span><h2>Native Android.<br/><span>Thoughtful by design.</span></h2><p>The product baseline favours maintainable boundaries, reliable local persistence and predictable money handling. The master roadmap remains the source of truth.</p><div className="engineering-list">{[['01','Local data','Room / SQLite for offline-first persistence.'],['02','Ledger integrity','Stock movements should be recorded as traceable events.'],['03','Safe money values','Use Long paise or an approved Money abstraction. Never Float or Double.']].map(x=><div key={x[0]}><b>{x[0]}</b><span><strong>{x[1]}</strong><small>{x[2]}</small></span></div>)}</div></div>
-    <div className="phone-stage"><div className="phone-halo"/><div className="phone-frame"><div className="phone-speaker"/><div className="phone-screen"><div className="phone-status"><span>9:41</span><span>● ▰ ▴</span></div><div className="phone-greeting"><small>NAMASTE 👋</small><h3>Apni Dukaan</h3><p>Business, at a glance.</p></div><div className="phone-metrics"><div><small>PRODUCTS</small><b>Catalog</b><span>Organised locally</span></div><div><small>STOCK HEALTH</small><b>Monitor</b><span>Low-stock awareness</span></div></div><div className="phone-activity"><b>Everyday essentials</b>{[['▦','Product catalog','Local-first records'],['⇄','Stock movement','Traceable ledger'],['₹','Customer Khata','Credit ledger core']].map((x,i)=><div className="phone-row" key={x[1]}><span className={'phone-row-icon c'+i}>{x[0]}</span><span><strong>{x[1]}</strong><small>{x[2]}</small></span><b>›</b></div>)}</div><div className="phone-tabbar"><span>⌂<small>Home</small></span><span>▦<small>Stock</small></span><span>₹<small>Khata</small></span><span>◷<small>Reports</small></span></div></div></div><div className="floating-glass floating-a"><span>✳</span><b>Merchant-first UX</b><small>Clear, calm, useful</small></div><div className="floating-glass floating-b"><span>⌁</span><b>Offline-first approach</b><small>Local workflow concept</small></div></div>
-    <div className="tech-stack glass-widget">{tech.map((t,i)=><div className="tech-item" key={t[1]}><span>{t[0]}</span><div><b>{t[1]}</b><small>{t[2]}</small></div><i>✓</i></div>)}</div></div></section>
-   <section id="roadmap" className="section-shell section-block roadmap-section"><div className="section-heading"><span className="eyebrow">THE MASTER ROADMAP</span><h2>Ambition, with guardrails.</h2><p>Phase 00–23 is governed work, not a permission slip to ship every possible feature at once.</p></div><div className="roadmap-stack">{phases.map((p,i)=><article className={'roadmap-row '+(i===2?'current-phase':'')} key={p.n}><div className="phase-bubble">{p.n}</div><div className="phase-copy"><h3>{p.title}</h3><p>{p.desc}</p></div><span className="phase-label">{p.state}</span></article>)}</div><div className="scope-warning"><span>!</span><p><b>Phase 02 scope lock</b><br/>Barcode / ML Kit / CameraX, full POS checkout and invoice, online payments / UPI, SMS / WhatsApp APIs, Firebase cloud sync, Bluetooth printing, subscriptions, AI Copilot, backend API / PostgreSQL, iOS and Play Store release work remain out of scope unless the governing roadmap explicitly authorizes them.</p></div></section>
-   <section id="connect" className="message-section"><div className="section-shell message-layout"><div><span className="eyebrow">PROJECT IDENTITY</span><h2>Built with intent.<br/><span>Governed with care.</span></h2><p>DukaanSaathi AiGen is developed and maintained by Dipak Choudhary, powered by KAIxGenShopLabs. The project follows atomic execution, strict scope lock and evidence-first delivery.</p><div className="identity-card"><div className="identity-avatar">DC</div><div><b>Dipak Choudhary</b><small>Developer / Maintainer</small></div><span className="identity-divider"/><div><b>KAIxGenShopLabs</b><small>Powered by</small></div></div></div>
-    <div className="message-phone"><div className="message-head"><span className="message-avatar">DS</span><div><b>DukaanSaathi AiGen</b><small>Product introduction</small></div><span className="message-more">•••</span></div><div className="chat-day">PROJECT PRINCIPLES</div><div className="chat-bubble incoming">Atomic execution. One task at a time.<small>GOVERNANCE</small></div><div className="chat-bubble incoming">Strict scope lock. No unapproved scope creep.<small>SCOPE CONTROL</small></div><div className="chat-bubble incoming">No invented endpoints or fake sync status.<small>ENGINEERING INTEGRITY</small></div><div className="chat-bubble outgoing">Har Dukaan Ka Digital Saathi. 🌿<small>DUKAANSAATHI AIGEN</small></div><a className="repo-link" href="https://github.com/GOKUxEDITION/DukaanSaathi-AiGen-Introduction" target="_blank" rel="noreferrer">Open GitHub repository <span>↗</span></a></div></div></section>
-  </main>
-  <footer className="portfolio-footer"><a className="brand-lockup" href="#home" onClick={e=>{e.preventDefault();go('home')}}><span className="brand-icon">DS</span><span><b>DukaanSaathi <i>AiGen</i></b><small>HAR DUKAAN KA DIGITAL SAATHI</small></span></a><p>© 2026 Dipak Choudhary · All rights reserved.</p><span>POWERED BY <b>KAIxGenShopLabs</b></span><button onClick={()=>go('home')} className="back-top">↑ TOP</button></footer>
-  {selected&&<div className="modal-backdrop" onClick={()=>setSelected(null)}><article className="feature-modal" onClick={e=>e.stopPropagation()}><button className="modal-close" onClick={()=>setSelected(null)} aria-label="Close">×</button><IconTile>{selected.icon}</IconTile><small>{selected.code}</small><h2>{selected.name}</h2><p>{selected.desc}</p><div className="modal-note">Phase 02 MVP · Requirement reference</div><button className="modal-done" onClick={()=>setSelected(null)}>Back to portfolio</button></article></div>}
- </div>;
+  );
+}
+
+function MarqueeRow({ images, reverse = false }) {
+  const track = useRef(null);
+  const { scrollYProgress } = useScroll({ target: track, offset: ['start end', 'end start'] });
+  const x = useTransform(scrollYProgress, [0, 1], reverse ? ['-5%', '-28%'] : ['-28%', '-5%']);
+  const repeated = [...images, ...images, ...images];
+  return (
+    <div className="marquee-clip" ref={track}>
+      <motion.div className="marquee-track" style={{ x }}>
+        {repeated.map((src, i) => <div className="marquee-image" key={`${src}-${i}`}><img src={src} alt="Selected digital design and web experience preview" loading="lazy" /></div>)}
+      </motion.div>
+    </div>
+  );
+}
+
+function RevealChar({ char, index, total, progress }) {
+  const start = index / total;
+  const end = Math.min(1, start + Math.max(0.025, 2 / total));
+  const opacity = useTransform(progress, [start, end], [0.2, 1]);
+  return <motion.span className="reveal-char" style={{ opacity }}>{char === ' ' ? '\u00a0' : char}</motion.span>;
+}
+
+function AnimatedText({ text }) {
+  const ref = useRef(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start 0.8', 'end 0.2'] });
+  const chars = Array.from(text);
+  return <p ref={ref} className="animated-paragraph">{chars.map((char, i) => <RevealChar key={`${i}-${char}`} char={char} index={i} total={chars.length} progress={scrollYProgress} />)}</p>;
+}
+
+function ProjectCard({ project, index }) {
+  const ref = useRef(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end start'] });
+  const scale = useTransform(scrollYProgress, [0, 0.9], [1, 1 - (projects.length - 1 - index) * 0.03]);
+  return (
+    <div className="project-card-stage" ref={ref} style={{ top: `${index * 28}px` }}>
+      <motion.article className="project-card" style={{ scale }}>
+        <div className="project-card-top">
+          <div className="project-meta"><span className="project-number">{project.number}</span><div><span className="project-category">{project.category}</span><h3>{project.name}</h3></div></div>
+          {project.link ? <a className="live-project-button" href={project.link} target="_blank" rel="noreferrer">GitHub Repository <ExternalLink size={15} /></a> : <span className="project-status">{project.status}</span>}
+        </div>
+        <div className="project-card-body">
+          <div className="project-copy"><p>{project.summary}</p><span className="project-status">{project.status}</span><span className="project-stack">INDEPENDENT PROJECT · BUILD LOG</span></div>
+          <div className="project-image-grid">
+            <div className="project-image-column"><img src={project.images[0]} alt={`${project.name} design preview one`} loading="lazy"/><img src={project.images[1]} alt={`${project.name} design preview two`} loading="lazy"/></div>
+            <img className="project-image-tall" src={project.images[2]} alt={`${project.name} design preview three`} loading="lazy"/>
+          </div>
+        </div>
+      </motion.article>
+    </div>
+  );
+}
+
+export default function App() {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const navItems = [{ label: 'About', href: '#about' }, { label: 'Price', href: '#services' }, { label: 'Projects', href: '#projects' }, { label: 'Contact', href: '#contact' }];
+  const scrollTo = (href) => {
+    setMenuOpen(false);
+    document.querySelector(href)?.scrollIntoView({ behavior: 'smooth' });
+  };
+  return (
+    <main className="portfolio-root">
+      <section className="hero-section" id="home">
+        <FadeIn className="navbar" delay={0} y={-20}>
+          <a className="brand-mark" href="#home" onClick={(e) => { e.preventDefault(); scrollTo('#home'); }}>G<span>.</span>C<span className="brand-orbit">✳</span></a>
+          <nav className={menuOpen ? 'nav-links open' : 'nav-links'} aria-label="Main navigation">
+            {navItems.map((item) => <a href={item.href} key={item.label} onClick={(e) => { e.preventDefault(); scrollTo(item.href); }}>{item.label}</a>)}
+          </nav>
+          <button className="menu-toggle" onClick={() => setMenuOpen(!menuOpen)} aria-label={menuOpen ? 'Close navigation' : 'Open navigation'}>{menuOpen ? <X /> : <Menu />}</button>
+        </FadeIn>
+        <div className="hero-heading-wrap"><FadeIn delay={0.15} y={40}><h1 className="hero-heading">Hi, I'm Goku<br className="hero-break"/> Choudhary<span className="hero-period">.</span></h1></FadeIn></div>
+        <div className="hero-portrait-glow" />
+        <FadeIn className="hero-portrait" delay={0.6} y={30}><Magnet><img src="/goku-choudhary.webp" alt="Portrait of Goku Choudhary" fetchPriority="high"/><span className="portrait-caption">DIPAK CHOUDHARY · DEVELOPER</span></Magnet></FadeIn>
+        <div className="hero-bottom">
+          <FadeIn delay={0.35} y={20} className="hero-intro"><span className="eyebrow">ANDROID · WEB · AI</span><p>Building Android apps & AI-powered digital experiences.</p><span className="hero-location">INDEPENDENT DEVELOPER · INDIA</span></FadeIn>
+          <FadeIn delay={0.5} y={20}><ContactButton /></FadeIn>
+        </div>
+        <span className="hero-side-note">SCROLL TO EXPLORE <ArrowDownRight size={15}/></span>
+      </section>
+
+      <section className="marquee-section" aria-label="Digital design inspiration gallery">
+        <div className="marquee-label"><span>IDEAS IN MOTION</span><span>DESIGN · CODE · EXPERIENCE</span></div>
+        <MarqueeRow images={marqueeImages.slice(0, 11)} />
+        <MarqueeRow images={marqueeImages.slice(11)} reverse />
+      </section>
+
+      <section className="about-section" id="about">
+        <img className="decor decor-moon" src={decor.moon} alt="" aria-hidden="true" loading="lazy"/>
+        <img className="decor decor-object" src={decor.object} alt="" aria-hidden="true" loading="lazy"/>
+        <img className="decor decor-lego" src={decor.lego} alt="" aria-hidden="true" loading="lazy"/>
+        <img className="decor decor-group" src={decor.group} alt="" aria-hidden="true" loading="lazy"/>
+        <FadeIn className="about-content"><span className="eyebrow">A LITTLE ABOUT ME</span><h2 className="hero-heading section-title">About me<span className="hero-period">.</span></h2><AnimatedText text="I'm Goku Choudhary, also known as Dipak Choudhary. I work on Android and web applications, and explore how AI can make everyday digital tools more useful. I enjoy learning by building, solving practical problems and turning product ideas into working experiences. Still growing, still shipping, one step at a time."/><ContactButton /></FadeIn>
+        <div className="about-facts"><div><span>01</span><b>1–2 years</b><small>Experience stated</small></div><div><span>02</span><b>10th · 12th · ITI</b><small>Education</small></div><div><span>03</span><b>Android + Web + AI</b><small>Current focus</small></div></div>
+      </section>
+
+      <section className="services-section" id="services">
+        <FadeIn><span className="eyebrow dark-eyebrow">WHAT I WORK ON</span><h2 className="services-title">Services<span>.</span></h2></FadeIn>
+        <div className="services-list">{services.map((service, i) => <FadeIn className="service-row" key={service.number} delay={i * 0.1} y={25}><span className="service-number">{service.number}</span><div className="service-info"><h3>{service.title}</h3><p>{service.description}</p></div><ArrowUpRight className="service-arrow" size={27} strokeWidth={1.2}/></FadeIn>)}</div>
+        <p className="services-note">These describe my current development focus and learning areas, not a claim of a formal agency or certified service offering.</p>
+      </section>
+
+      <section className="skills-section" id="skills">
+        <div className="skills-heading"><FadeIn><span className="eyebrow">TOOLS I WORK WITH & EXPLORE</span><h2 className="hero-heading section-title">My toolkit<span className="hero-period">.</span></h2><p className="skills-intro">A snapshot of technologies I use, practise or am actively exploring. Skill depth varies by tool and project.</p></FadeIn><div className="skill-orbit"><div className="orbit-ring ring-one"/><div className="orbit-ring ring-two"/><div className="orbit-core"><Cpu size={44}/></div><span className="orbit-chip chip-one"><Code2 size={17}/></span><span className="orbit-chip chip-two"><Database size={17}/></span><span className="orbit-chip chip-three"><Sparkles size={17}/></span></div></div>
+        <div className="skill-groups">{skillGroups.map((group, i) => { const Icon = group.icon; return <FadeIn className="skill-group" key={group.title} delay={i * 0.12}><div className="skill-group-heading"><span><Icon size={20}/></span><h3>{group.title}</h3></div><div className="skill-tags">{group.tags.map(tag => <span key={tag}>{tag}</span>)}</div></FadeIn>; })}</div>
+      </section>
+
+      <section className="projects-section" id="projects">
+        <div className="projects-heading"><FadeIn><span className="eyebrow">SELECTED BUILDS & LEARNING TRACKS</span><h2 className="hero-heading section-title">Project<span className="hero-period">s.</span></h2><p className="projects-intro">A few things I am building, exploring or learning through. Their current status is shown on each card.</p></FadeIn></div>
+        <div className="projects-stack">{projects.map((project, i) => <ProjectCard project={project} index={i} key={project.number}/>)}</div>
+        <p className="project-disclaimer">Visual previews are placeholders retained from the supplied design reference. They are not verified product screenshots; real project captures can replace them as each case study is documented.</p>
+      </section>
+
+      <section className="contact-section" id="contact">
+        <div className="contact-inner"><FadeIn><span className="eyebrow">HAVE AN IDEA?</span><h2 className="hero-heading contact-title">Let's build<br/>something useful<span className="hero-period">.</span></h2><p className="contact-lead">For collaboration, project discussions or a simple developer conversation, reach out through any of these channels.</p><ContactButton href="mailto:gokuxedition@gmail.com">Start a conversation</ContactButton></FadeIn>
+          <div className="contact-links"><a href="mailto:gokuxedition@gmail.com"><span><Mail size={20}/></span><div><small>EMAIL</small><b>gokuxedition@gmail.com</b></div><ArrowUpRight size={19}/></a><a href="https://wa.me/917363044825" target="_blank" rel="noreferrer"><span><MessageCircle size={20}/></span><div><small>WHATSAPP</small><b>+91 73630 44825</b></div><ArrowUpRight size={19}/></a><a href="https://github.com/GOKUxEDITION" target="_blank" rel="noreferrer"><span><Github size={20}/></span><div><small>GITHUB</small><b>github.com/GOKUxEDITION</b></div><ArrowUpRight size={19}/></a><a href="https://t.me/GokuChoudharyLabs" target="_blank" rel="noreferrer"><span><Send size={20}/></span><div><small>TELEGRAM</small><b>@GokuChoudharyLabs</b></div><ArrowUpRight size={19}/></a><a href="https://www.instagram.com/gokuxedition?gwpx=MTh1cHE1NzJxc2NrbA==" target="_blank" rel="noreferrer"><span><Instagram size={20}/></span><div><small>INSTAGRAM</small><b>@gokuxedition</b></div><ArrowUpRight size={19}/></a><a href="https://t.me/KAIxGenShopLabs" target="_blank" rel="noreferrer"><span><MessageCircle size={20}/></span><div><small>TELEGRAM CHANNEL</small><b>KAIxGenShopLabs</b></div><ArrowUpRight size={19}/></a></div>
+        </div>
+      </section>
+
+      <footer className="site-footer"><a className="footer-mark" href="#home" onClick={(e) => { e.preventDefault(); scrollTo('#home'); }}>G<span>.</span>C</a><p>Designed with intent. Built while learning.</p><span>© {new Date().getFullYear()} DIPAK CHOUDHARY</span><a href="#home" onClick={(e) => { e.preventDefault(); scrollTo('#home'); }}>BACK TO TOP ↑</a></footer>
+    </main>
+  );
 }
