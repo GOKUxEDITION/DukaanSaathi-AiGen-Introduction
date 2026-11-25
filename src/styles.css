@@ -31,3 +31,9 @@ button,a{touch-action:manipulation}
 .contact-links b{overflow-wrap:anywhere}
 @media(max-width:700px){.nav-links a{min-height:48px}.service-row{align-items:flex-start}.service-number{flex-basis:clamp(60px,18vw,80px)}.project-card-stage{height:auto;min-height:80svh}.project-card{min-height:80svh}.project-card-body{min-height:0}.contact-links{grid-template-columns:1fr}.site-footer{overflow-wrap:anywhere}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.marquee-track{transform:none!important}.magnet-inner{transform:none!important}}
+
+
+/* Readability floor for small metadata and mobile controls */
+:where(.project-category,.hero-location,.hero-side-note,.marquee-label,.about-facts span,.about-facts small,.services-note,.project-copy .project-status,.project-stack,.project-disclaimer,.contact-links small,.site-footer p,.site-footer>span,.site-footer>a:last-child){font-size:max(10px,1vw)!important}
+:where(.live-project-button,.contact-links b,.contact-button,.skill-tags span){font-size:max(11px,1.1vw)!important}
+@media(max-width:700px){.project-copy p{font-size:12px!important}.hero-side-note{font-size:10px!important}.contact-links small{font-size:10px!important}.skill-tags span{font-size:10px!important}}
