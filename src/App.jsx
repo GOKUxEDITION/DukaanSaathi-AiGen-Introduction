@@ -1,13 +1,13 @@
-import React, { useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import {
   motion,
   useScroll,
   useTransform,
 } from 'framer-motion';
 import {
-  ArrowDownRight, ArrowUpRight, ArrowRight, Github, Instagram,
+  ArrowDownRight, ArrowUpRight, Github, Instagram,
   Mail, MessageCircle, Send, Code2, Smartphone, BrainCircuit,
-  Layers3, Database, Cpu, Menu, X, Sparkles, ExternalLink,
+  Database, Cpu, Menu, X, Sparkles, ExternalLink,
 } from 'lucide-react';
 
 const marqueeImages = [
