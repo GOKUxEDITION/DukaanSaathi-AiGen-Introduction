@@ -120,7 +120,7 @@ function Magnet({ children }) {
     setOffset(near ? { x: (dx / 3) * 0.18, y: (dy / 3) * 0.18 } : { x: 0, y: 0 });
   };
   return (
-    <div ref={ref} className="magnet-wrap" onMouseMove={handleMove} onMouseLeave={() => setOffset({ x: 0, y: 0 })}>
+    <div ref={ref} className="magnet-wrap" onMouseMove={handleMove} onMouseLeave={() => setOffset({ x: 0, y: 0 })} onFocus={() => setOffset({ x: 0, y: 0 })}>
       <div className="magnet-inner" style={{ transform: `translate3d(${offset.x}px, ${offset.y}px, 0)`, transition: offset.x || offset.y ? 'transform .3s ease-out' : 'transform .6s ease-in-out' }}>{children}</div>
     </div>
   );
@@ -179,7 +179,7 @@ function ProjectCard({ project, index }) {
 
 export default function App() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const navItems = [{ label: 'About', href: '#about' }, { label: 'Price', href: '#services' }, { label: 'Projects', href: '#projects' }, { label: 'Contact', href: '#contact' }];
+  const navItems = [{ label: 'About', href: '#about' }, { label: 'Services', href: '#services' }, { label: 'Projects', href: '#projects' }, { label: 'Contact', href: '#contact' }];
   const scrollTo = (href) => {
     setMenuOpen(false);
     document.querySelector(href)?.scrollIntoView({ behavior: 'smooth' });
