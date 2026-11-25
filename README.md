@@ -62,3 +62,16 @@ npm run preview
 ## Maintainer
 
 Dipak Choudhary · Goku Choudhary
+
+## Quality and security checks
+
+Run the lightweight repository checks before building:
+
+```bash
+npm run check
+npm run lint
+npm run security
+npm run build
+```
+
+The static checks validate the package manifest, page metadata and Content Security Policy, Dependabot formatting, and the public security contact files. GitHub Actions runs these checks plus a secret scan on pull requests. The Content Security Policy is delivered through an HTML meta tag; GitHub Pages does not allow this repository to configure response headers, so protections such as HTTP Strict Transport Security and frame-ancestors cannot be enforced here. For stronger server-side header enforcement, use a hosting platform that supports response-header configuration.
