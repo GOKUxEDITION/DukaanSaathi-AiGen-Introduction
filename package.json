@@ -8,7 +8,8 @@
     "build": "vite build",
     "preview": "vite preview",
     "lint": "eslint .",
-    "security": "npm audit --audit-level=moderate"
+    "security": "npm audit --audit-level=moderate",
+    "check": "node scripts/check-static-safety.mjs"
   },
   "dependencies": {
     "@vitejs/plugin-react": "^4.3.4",
