@@ -9,6 +9,7 @@ on:
 
 permissions:
   contents: read
+  pull-requests: read
 
 concurrency:
   group: github-pages
@@ -36,6 +37,8 @@ jobs:
         run: npm run build
       - name: Secret scan
         uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Upload GitHub Pages artifact
         uses: actions/upload-pages-artifact@v4
         with:
