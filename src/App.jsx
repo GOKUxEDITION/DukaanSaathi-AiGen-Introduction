@@ -134,7 +134,7 @@ function MarqueeRow({ images, reverse = false }) {
   return (
     <div className="marquee-clip" ref={track}>
       <motion.div className="marquee-track" style={{ x }}>
-        {repeated.map((src, i) => <div className="marquee-image" key={`${src}-${i}`}><img src={src} alt="Selected digital design and web experience preview" loading="lazy" /></div>)}
+        {repeated.map((src, i) => <div className="marquee-image" key={`${src}-${i}`}><img src={src} alt="" aria-hidden="true" loading="lazy" /></div>)}
       </motion.div>
     </div>
   );
@@ -189,10 +189,10 @@ export default function App() {
       <section className="hero-section" id="home">
         <FadeIn className="navbar" delay={0} y={-20}>
           <a className="brand-mark" href="#home" onClick={(e) => { e.preventDefault(); scrollTo('#home'); }}>G<span>.</span>C<span className="brand-orbit">✳</span></a>
-          <nav className={menuOpen ? 'nav-links open' : 'nav-links'} aria-label="Main navigation">
+          <nav id="mobile-navigation" className={menuOpen ? 'nav-links open' : 'nav-links'} aria-label="Main navigation">
             {navItems.map((item) => <a href={item.href} key={item.label} onClick={(e) => { e.preventDefault(); scrollTo(item.href); }}>{item.label}</a>)}
           </nav>
-          <button className="menu-toggle" onClick={() => setMenuOpen(!menuOpen)} aria-label={menuOpen ? 'Close navigation' : 'Open navigation'}>{menuOpen ? <X /> : <Menu />}</button>
+          <button className="menu-toggle" type="button" aria-controls="mobile-navigation" aria-expanded={menuOpen} onClick={() => setMenuOpen(!menuOpen)} aria-label={menuOpen ? 'Close navigation' : 'Open navigation'}>{menuOpen ? <X /> : <Menu />}</button>
         </FadeIn>
         <div className="hero-heading-wrap"><FadeIn delay={0.15} y={40}><h1 className="hero-heading">Hi, I'm Goku<br className="hero-break"/> Choudhary<span className="hero-period">.</span></h1></FadeIn></div>
         <div className="hero-portrait-glow" />
