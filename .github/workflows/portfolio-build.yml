@@ -26,6 +26,8 @@ jobs:
           node-version: 20
       - name: Install dependencies
         run: npm install --no-audit --no-fund
+      - name: Static repository checks
+        run: npm run check
       - name: Lint source
         run: npm run lint
       - name: Dependency audit
