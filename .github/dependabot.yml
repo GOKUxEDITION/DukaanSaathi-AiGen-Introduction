@@ -1,1 +1,12 @@
-version: 2\nupdates:\n  - package-ecosystem: npm\n    directory: /\n    schedule:\n      interval: weekly\n    open-pull-requests-limit: 5\n  - package-ecosystem: github-actions\n    directory: /.github/workflows\n    schedule:\n      interval: weekly\n    open-pull-requests-limit: 5\n
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+  - package-ecosystem: github-actions
+    directory: /.github/workflows
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
